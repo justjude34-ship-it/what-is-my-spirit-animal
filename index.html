@@ -5,48 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What Is My Spirit Animal?</title>
 <meta name="description" content="Answer five questions and discover your spirit animal.">
-<meta name="theme-color" content="#1a120b">
-<link rel="manifest" href="data:application/manifest+json,{'name':'What Is My Spirit Animal','short_name':'Spirit Animal','start_url':'.','display':'standalone','background_color':'#1a120b','theme_color':'#1a120b'}">
+<meta name="theme-color" content="#0b1420">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: Georgia, 'Times New Roman', serif; background:#1a120b; color:#f3e9d7; min-height:100vh; display:flex; flex-direction:column; align-items:center; }
-  header { width:100%; text-align:center; padding:28px 16px 8px; }
-  header h1 { font-size:1.7rem; letter-spacing:1px; color:#e8c98a; }
-  header p { color:#b9a88a; font-size:0.95rem; margin-top:6px; }
-  .cover { width:100%; max-width:640px; margin:12px auto 0; border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.5); }
-  .cover img { display:block; width:100%; height:auto; }
-  main { width:100%; max-width:640px; padding:20px 16px 40px; flex:1; }
-  .progress { height:6px; background:#3a2e22; border-radius:3px; margin-bottom:22px; overflow:hidden; }
+  body { font-family: Georgia, 'Times New Roman', serif; background:#0b1420; color:#f3e9d7; min-height:100vh; }
+  .hero { position:relative; width:100%; max-width:480px; margin:0 auto; min-height:100vh; }
+  .hero img { width:100%; height:62vh; object-fit:cover; object-position:center 30%; display:block; }
+  .hero .veil { position:absolute; left:0; right:0; top:38vh; height:24vh; background:linear-gradient(to bottom, transparent, #0b1420); }
+  main { width:100%; max-width:480px; margin:-28px auto 0; padding:0 18px 40px; position:relative; }
+  h1 { font-size:1.85rem; line-height:1.05; color:#e8c98a; text-align:center; }
+  .tagline { text-align:center; color:#b9a88a; margin:8px 0 18px; }
+  .progress { height:6px; background:#3a2e22; border-radius:3px; margin:8px 0 18px; overflow:hidden; }
   .progress > div { height:100%; width:0; background:linear-gradient(90deg,#c98a3a,#e8c98a); transition:width .4s ease; }
   .q { font-size:1.25rem; line-height:1.45; margin-bottom:18px; }
   .answers { display:flex; flex-direction:column; gap:10px; }
-  .answers button { background:#2a2118; color:#f3e9d7; border:1px solid #4a3b2a; border-radius:10px; padding:14px 16px; text-align:left; font-size:1rem; cursor:pointer; transition:background .2s, border-color .2s; }
-  .answers button:hover { background:#3a2e22; border-color:#c98a3a; }
-  .result { text-align:center; padding:10px 0; }
-  .result .emoji { font-size:3.5rem; margin-bottom:8px; }
-  .result h2 { font-size:2rem; color:#e8c98a; margin-bottom:6px; }
-  .result .tag { color:#b9a88a; font-style:italic; margin-bottom:18px; }
-  .result p { line-height:1.6; margin-bottom:14px; }
-  .result .shadow { color:#c9a88a; font-size:.95rem; }
-  .btns { display:flex; gap:10px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
-  .btns button { background:#c98a3a; color:#1a120b; border:none; border-radius:10px; padding:12px 22px; font-size:1rem; font-weight:bold; cursor:pointer; }
+  .answers button, .begin { background:#2a2118; color:#f3e9d7; border:1px solid #4a3b2a; border-radius:12px; padding:14px 16px; text-align:left; font-size:1rem; cursor:pointer; }
+  .begin { display:block; width:100%; text-align:center; background:#c98a3a; color:#1a120b; font-weight:bold; border:none; font-size:1.1rem; padding:16px; }
+  .answers button:hover { border-color:#c98a3a; }
+  .result { text-align:center; }
+  .result .emoji { font-size:3.2rem; }
+  .result h2 { font-size:2rem; color:#e8c98a; margin:6px 0; }
+  .result .tag { color:#b9a88a; font-style:italic; margin-bottom:14px; }
+  .result p { line-height:1.55; margin-bottom:12px; }
+  .btns { display:flex; gap:10px; justify-content:center; margin-top:18px; }
+  .btns button { background:#c98a3a; color:#1a120b; border:none; border-radius:10px; padding:12px 18px; font-weight:bold; }
   .btns button.secondary { background:transparent; color:#e8c98a; border:1px solid #c98a3a; }
-  .start { text-align:center; padding:30px 10px; }
-  .start button { background:#c98a3a; color:#1a120b; border:none; border-radius:12px; padding:16px 40px; font-size:1.15rem; font-weight:bold; cursor:pointer; letter-spacing:.5px; }
-  .start button:hover { background:#e8c98a; }
-  footer { color:#6b5a45; font-size:.75rem; padding:10px; text-align:center; }
 </style>
 </head>
 <body>
-<header>
-  <h1>What Is My Spirit Animal?</h1>
-  <p>Five questions. One animal. Discover yours.</p>
-</header>
-<div class="cover">
-  <img src="data:image/jpeg;base64,PLACEHOLDER" alt="Wolf at dusk on a ridge">
+<div class="hero">
+  <img src="cover.jpg" alt="A grey wolf on a ridge at blue hour">
+  <div class="veil"></div>
 </div>
-<main id="app"></main>
-<footer>What Is My Spirit Animal &middot; a single-file quiz</footer>
+<main>
+  <h1>What Is My Spirit Animal?</h1>
+  <p class="tagline">Five questions. One animal. Discover yours.</p>
+  <div class="progress"><div id="bar"></div></div>
+  <div id="app"></div>
+</main>
 <script>
 const QUESTIONS = [
   { q: "When plans fall apart, what do you do?", a: [
@@ -96,31 +92,44 @@ const ANIMALS = {
   tiger: { name:"Tiger", emoji:"🐯", tag:"The fierce one", strength:"You confront pressure directly and protect your own.", shadow:"You can burn bridges in the heat of it." },
   hare: { name:"Hare", emoji:"🐇", tag:"The quick escape", strength:"You avoid conflict and move fast when needed.", shadow:"You can run from things worth facing." },
   turtle: { name:"Turtle", emoji:"🐢", tag:"The calm one", strength:"You stay steady and wait things out.", shadow:"You can retreat so far you stop moving." }
-);
-let scores = {}, idx = 0;
-const app = document.getElementById('app);
-const bar = document.querySelector('.progress > div);
-function start(){ scores={}; idx=0; render(); }
+};
+let scores = {}, idx = 0, started = false;
+const app = document.getElementById("app");
+const bar = document.getElementById("bar");
+function home(){
+  started = false; idx = 0; scores = {};
+  bar.style.width = "0%";
+  app.innerHTML = '<button class="begin" id="go">Begin</button>';
+  document.getElementById("go").onclick = start;
+}
+function start(){ started = true; scores = {}; idx = 0; render(); }
 function render(){
-  bar.style.width = (idx/QUESTIONS.length*100)+'%';
-  if(idx>=QUESTIONS.length){ showResult(); return; }
+  bar.style.width = (idx / QUESTIONS.length * 100) + "%";
+  if (idx >= QUESTIONS.length) { showResult(); return; }
   const Q = QUESTIONS[idx];
-  app.innerHTML = '<div class="q">'+Q.q+'</div><div class="answers">'+Q.a.map((a,i)=>'<button onclick="pick('+i+')">'+a.t+'</button>').join('')+'</div>';
+  app.innerHTML = '<div class="q">' + Q.q + '</div><div class="answers">' + Q.a.map((a,i)=>'<button data-i="'+i+'">'+a.t+'</button>').join('') + '</div>';
+  app.querySelectorAll("button").forEach(b => b.onclick = () => pick(+b.dataset.i));
 }
-function pick(i){ const a = QUESTIONS[idx].a[i]; scores[a.animal]=(scores[a.animal]||0)+1; idx++; render(); }
+function pick(i){
+  const a = QUESTIONS[idx].a[i];
+  scores[a.animal] = (scores[a.animal] || 0) + 1;
+  idx++;
+  render();
+}
 function showResult(){
-  let best=null, top=-1;
-  for(const k in scores){ if(scores[k]>top){ top=scores[k]; best=k; } }
+  bar.style.width = "100%";
+  let best = null, top = -1;
+  for (const k in scores) if (scores[k] > top) { top = scores[k]; best = k; }
   const A = ANIMALS[best];
-  app.innerHTML = '<div class="result"><div class="emoji">'+A.emoji+'</div><h2>'+A.name+'</h2><div class="tag">'+A.tag+'</div><p><strong>Your strength:</strong> '+A.strength+'</p><p class="shadow"><strong>Your shadow:</strong> '+A.shadow+'</p></div><div class="btns"><button onclick="share()">Share</button><button class="secondary" onclick="start()">Start over</button></div>';
+  app.innerHTML = '<div class="result"><div class="emoji">'+A.emoji+'</div><h2>'+A.name+'</h2><div class="tag">'+A.tag+'</div><p><strong>Your strength:</strong> '+A.strength+'</p><p><strong>Your shadow:</strong> '+A.shadow+'</p></div><div class="btns"><button id="share">Share</button><button class="secondary" id="again">Start over</button></div>';
+  document.getElementById("again").onclick = home;
+  document.getElementById("share").onclick = () => {
+    const text = "My spirit animal is the " + A.name + "! " + A.emoji;
+    if (navigator.share) navigator.share({ title: "What Is My Spirit Animal?", text });
+    else { navigator.clipboard.writeText(text); alert("Copied."); }
+  };
 }
-function share(){
-  const A = ANIMALS[Object.keys(scores).reduce((b,k)=>scores[k]>scores[b]?k:b)];
-  const text = 'My spirit animal is the '+A.name+'! '+A.emoji+' Take the quiz: '+location.href;
-  if(navigator.share){ navigator.share({title:'What Is My Spirit Animal?', text:text}); }
-  else { navigator.clipboard.writeText(text); alert('Copied to clipboard!'); }
-}
-start();
+home();
 </script>
 </body>
 </html>
