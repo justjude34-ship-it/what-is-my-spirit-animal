@@ -2,47 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>What Is My Spirit Animal?</title>
 <meta name="description" content="Answer five questions and discover your spirit animal.">
 <meta name="theme-color" content="#0b1420">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: Georgia, 'Times New Roman', serif; background:#0b1420; color:#f3e9d7; min-height:100vh; }
-  .hero { position:relative; width:100%; max-width:480px; margin:0 auto; min-height:100vh; }
-  .hero img { width:100%; height:62vh; object-fit:cover; object-position:center 30%; display:block; }
-  .hero .veil { position:absolute; left:0; right:0; top:38vh; height:24vh; background:linear-gradient(to bottom, transparent, #0b1420); }
-  main { width:100%; max-width:480px; margin:-28px auto 0; padding:0 18px 40px; position:relative; }
-  h1 { font-size:1.85rem; line-height:1.05; color:#e8c98a; text-align:center; }
-  .tagline { text-align:center; color:#b9a88a; margin:8px 0 18px; }
-  .progress { height:6px; background:#3a2e22; border-radius:3px; margin:8px 0 18px; overflow:hidden; }
+  body { font-family: Georgia, "Times New Roman", serif; background:#0b1420; color:#f3e9d7; min-height:100vh; }
+  .wrap { width:100%; max-width:480px; margin:0 auto; }
+  .hero { position:relative; }
+  .hero img { width:100%; height:42vh; max-height:340px; object-fit:cover; object-position:center 28%; display:block; }
+  .hero .veil { position:absolute; left:0; right:0; bottom:0; height:90px; background:linear-gradient(to bottom, transparent, #0b1420); }
+  main { padding:4px 18px 40px; }
+  h1 { font-size:1.7rem; line-height:1.05; color:#e8c98a; text-align:center; }
+  .tagline { text-align:center; color:#b9a88a; margin:8px 0 16px; }
+  .progress { height:6px; background:#3a2e22; border-radius:3px; margin:4px 0 16px; overflow:hidden; }
   .progress > div { height:100%; width:0; background:linear-gradient(90deg,#c98a3a,#e8c98a); transition:width .4s ease; }
-  .q { font-size:1.25rem; line-height:1.45; margin-bottom:18px; }
+  .q { font-size:1.22rem; line-height:1.45; margin-bottom:16px; }
   .answers { display:flex; flex-direction:column; gap:10px; }
-  .answers button, .begin { background:#2a2118; color:#f3e9d7; border:1px solid #4a3b2a; border-radius:12px; padding:14px 16px; text-align:left; font-size:1rem; cursor:pointer; }
-  .begin { display:block; width:100%; text-align:center; background:#c98a3a; color:#1a120b; font-weight:bold; border:none; font-size:1.1rem; padding:16px; }
-  .answers button:hover { border-color:#c98a3a; }
+  .answers button, .begin { background:#2a2118; color:#f3e9d7; border:1px solid #4a3b2a; border-radius:12px; padding:15px 16px; text-align:left; font-size:1.05rem; cursor:pointer; }
+  .begin { display:block; width:100%; text-align:center; background:#c98a3a; color:#1a120b; font-weight:bold; border:none; font-size:1.15rem; padding:18px; }
   .result { text-align:center; }
   .result .emoji { font-size:3.2rem; }
   .result h2 { font-size:2rem; color:#e8c98a; margin:6px 0; }
   .result .tag { color:#b9a88a; font-style:italic; margin-bottom:14px; }
   .result p { line-height:1.55; margin-bottom:12px; }
-  .btns { display:flex; gap:10px; justify-content:center; margin-top:18px; }
-  .btns button { background:#c98a3a; color:#1a120b; border:none; border-radius:10px; padding:12px 18px; font-weight:bold; }
+  .btns { display:flex; gap:10px; justify-content:center; margin-top:18px; flex-wrap:wrap; }
+  .btns button { background:#c98a3a; color:#1a120b; border:none; border-radius:10px; padding:13px 20px; font-weight:bold; font-size:1rem; }
   .btns button.secondary { background:transparent; color:#e8c98a; border:1px solid #c98a3a; }
 </style>
 </head>
 <body>
-<div class="hero">
-  <img src="cover.jpg" alt="A grey wolf on a ridge at blue hour">
-  <div class="veil"></div>
+<div class="wrap">
+  <div class="hero">
+    <img src="cover.jpg" alt="A grey wolf on a ridge at blue hour">
+    <div class="veil"></div>
+  </div>
+  <main>
+    <h1>What Is My Spirit Animal?</h1>
+    <p class="tagline">Five questions. One animal. Discover yours.</p>
+    <div class="progress"><div id="bar"></div></div>
+    <div id="app"></div>
+  </main>
 </div>
-<main>
-  <h1>What Is My Spirit Animal?</h1>
-  <p class="tagline">Five questions. One animal. Discover yours.</p>
-  <div class="progress"><div id="bar"></div></div>
-  <div id="app"></div>
-</main>
 <script>
 const QUESTIONS = [
   { q: "When plans fall apart, what do you do?", a: [
@@ -93,16 +95,16 @@ const ANIMALS = {
   hare: { name:"Hare", emoji:"🐇", tag:"The quick escape", strength:"You avoid conflict and move fast when needed.", shadow:"You can run from things worth facing." },
   turtle: { name:"Turtle", emoji:"🐢", tag:"The calm one", strength:"You stay steady and wait things out.", shadow:"You can retreat so far you stop moving." }
 };
-let scores = {}, idx = 0, started = false;
+let scores = {}, idx = 0;
 const app = document.getElementById("app");
 const bar = document.getElementById("bar");
 function home(){
-  started = false; idx = 0; scores = {};
+  idx = 0; scores = {};
   bar.style.width = "0%";
   app.innerHTML = '<button class="begin" id="go">Begin</button>';
   document.getElementById("go").onclick = start;
 }
-function start(){ started = true; scores = {}; idx = 0; render(); }
+function start(){ scores = {}; idx = 0; render(); }
 function render(){
   bar.style.width = (idx / QUESTIONS.length * 100) + "%";
   if (idx >= QUESTIONS.length) { showResult(); return; }
